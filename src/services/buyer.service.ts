@@ -11,8 +11,8 @@ export async function getBuyerByUsername(username: string) {
   return buyer;
 }
 
-export async function getRandomBuyers(count: number) {
-  const buyers: IBuyerDocument[] | null = await BuyerModel.aggregate([{ $sample: { size: count } }]);
+export async function getRandomBuyers(size: number) {
+  const buyers: IBuyerDocument[] | null = await BuyerModel.aggregate([{ $sample: { size } }]);
   return buyers;
 }
 
