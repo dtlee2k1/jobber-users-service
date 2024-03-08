@@ -18,8 +18,8 @@ const sellerSchema: Schema = new Schema(
       }
     ],
     skills: [{ type: String, required: true }],
-    ratingsCount: { type: Number, default: 0 },
-    ratingSum: { type: Number, default: 0 },
+    ratingsCount: { type: Number, default: 0 }, // total number of ratings that the seller has received
+    ratingSum: { type: Number, default: 0 }, // the sum of all ratings that the seller has received
     ratingCategories: {
       five: { value: { type: Number, default: 0 }, count: { type: Number, default: 0 } },
       four: { value: { type: Number, default: 0 }, count: { type: Number, default: 0 } },
