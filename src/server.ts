@@ -8,6 +8,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import { verify } from 'jsonwebtoken';
 import compression from 'compression';
+import { Channel } from 'amqplib';
 import { IAuthPayload, verifyGatewayRequest, winstonLogger } from '@dtlee2k1/jobber-shared';
 import envConfig from '@users/config';
 import healthRouter from '@users/routes/health.routes';
@@ -15,9 +16,18 @@ import { CustomError, IErrorResponse } from '@users/error-handler';
 import { checkConnection } from '@users/elasticsearch';
 import buyerRouter from '@users/routes/buyer.routes';
 import sellerRouter from '@users/routes/seller.routes';
+import { createConnection } from '@users/queues/connection';
+import {
+  consumeBuyerDirectMessage,
+  consumeReviewFanoutMessages,
+  consumeSeedGigDirectMessage,
+  consumeSellerDirectMessage
+} from '@users/queues/user.consumer';
 
 const SERVER_PORT = 4003;
 const logger = winstonLogger(`${envConfig.ELASTIC_SEARCH_URL}`, 'UsersService', 'debug');
+
+export let userChannel: Channel;
 
 export function start(app: Application) {
   securityMiddleware(app);
@@ -67,7 +77,13 @@ function routesMiddleware(app: Application) {
   app.use(SELLER_BASE_PATH, verifyGatewayRequest, sellerRouter);
 }
 
-async function startQueues() {}
+async function startQueues() {
+  userChannel = (await createConnection()) as Channel;
+  await consumeBuyerDirectMessage(userChannel);
+  await consumeSellerDirectMessage(userChannel);
+  await consumeReviewFanoutMessages(userChannel);
+  await consumeSeedGigDirectMessage(userChannel);
+}
 
 async function startElasticSearch() {
   await checkConnection();

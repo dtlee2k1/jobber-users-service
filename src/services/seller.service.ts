@@ -63,12 +63,16 @@ export async function updateTotalGigsCount(sellerId: string, count: number) {
   await SellerModel.updateOne({ _id: sellerId }, { $inc: { totalGigs: count } }).exec();
 }
 
-export async function updateOngoingJobsProp(sellerId: string, ongoingJobs: number) {
+export async function updateSellerOngoingJobsProp(sellerId: string, ongoingJobs: number) {
   await SellerModel.updateOne({ _id: sellerId }, { $inc: { ongoingJobs } }).exec();
 }
 
+export async function updateSellerCancelledJobsProp(sellerId: string) {
+  await SellerModel.updateOne({ _id: sellerId }, { $inc: { ongoingJobs: -1, cancelledJobs: 1 } }).exec();
+}
+
 // Consume data from Order service
-export async function updateCompletedJobsProp(data: IOrderMessage) {
+export async function updateSellerCompletedJobsProp(data: IOrderMessage) {
   const { sellerId, ongoingJobs, completedJobs, totalEarnings, recentDelivery } = data;
   await SellerModel.updateOne(
     { _id: sellerId },
