@@ -19,8 +19,8 @@ export async function getSellerByUsername(username: string) {
 }
 
 export async function getRandomSellers(size: number) {
-  const seller: ISellerDocument[] | null = await SellerModel.aggregate([{ $sample: { size } }]);
-  return seller;
+  const sellers: ISellerDocument[] | null = await SellerModel.aggregate([{ $sample: { size } }]);
+  return sellers;
 }
 
 export async function createSeller(sellerData: ISellerDocument) {
