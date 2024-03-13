@@ -3,6 +3,6 @@ import { Router } from 'express';
 
 const healthRouter = Router();
 
-healthRouter.get('/users-health', checkHealth);
+healthRouter.get('/user-health', checkHealth);
 
 export default healthRouter;

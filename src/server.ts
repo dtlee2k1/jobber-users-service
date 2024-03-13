@@ -103,14 +103,6 @@ function errorHandler(app: Application) {
 function startServer(app: Application) {
   try {
     const httpServer = new http.Server(app);
-    startHttpServer(httpServer);
-  } catch (error) {
-    logger.log('error', 'UsersService startServer() error method:', error);
-  }
-}
-
-async function startHttpServer(httpServer: http.Server) {
-  try {
     logger.info(`Users server has started with process id ${process.pid}`);
     httpServer.listen(SERVER_PORT, () => {
       logger.info(`Users server running on port ${SERVER_PORT}`);

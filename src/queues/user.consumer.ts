@@ -114,7 +114,7 @@ export async function consumeReviewFanoutMessages(channel: Channel) {
           channel,
           'jobber-update-gig',
           'update-gig',
-          JSON.stringify({ type: 'udpateGig', gigReview: msg!.content.toString() }),
+          JSON.stringify({ type: 'updateGig', gigReview: msg!.content.toString() }),
           'Message sent to gig service'
         );
       }
