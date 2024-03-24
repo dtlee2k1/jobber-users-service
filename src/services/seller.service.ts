@@ -104,8 +104,8 @@ export async function updateSellerReview(data: IReviewMessageDetails) {
       $inc: {
         ratingsCount: 1,
         ratingSum: data.rating,
-        [`ratingCategories.[${ratingKey}].value`]: data.rating,
-        [`ratingCategories.[${ratingKey}].count`]: 1
+        [`ratingCategories.${ratingKey}.value`]: data.rating,
+        [`ratingCategories.${ratingKey}.count`]: 1
       }
     }
   ).exec();
